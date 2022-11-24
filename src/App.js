@@ -4,11 +4,13 @@ import {useEffect} from "react"
 
 function App() {
 
+const [content, setContent] = useState('users');
+const [data, setData]=useState([])
+const str = ['users', 'posts', 'photos']
 
-
-const[content, setContent] = useState("");
-useEffect(()=>{console.log("stringa")},[content])
-const str = ['Utenti', 'Tweet', 'Commenti']
+useEffect(()=>{fetch('https://jsonplaceholder.typicode.com/'+content)
+.then((response) => response.json())
+.then((json) => setData(json));},[content])
 
 function show(stringhe){
   setContent(stringhe)
@@ -19,10 +21,11 @@ console.log('Componente caricata...')
 
   return (
     <div>
-      <Button azione={() =>show(str[0])} nome="Utenti"/>
-      <Button azione={() =>show(str[1])} nome="Tweet"/>
-      <Button azione={() =>show(str[2])} nome="Commenti"/>
+      <Button azione={() =>show(str[0])} nome="users"/>
+      <Button azione={() =>show(str[1])} nome="posts"/>
+      <Button azione={() =>show(str[2])} nome="photos"/>
       <div>{content}</div>
+      <pre>{data.map((elemento)=><pre>{JSON.stringify(elemento)}</pre>)}</pre>
     </div>
   );
 }
